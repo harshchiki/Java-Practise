@@ -19,7 +19,7 @@ public class CustomBlockingQueue<T> {
 				 * and had a reader come in first, 
 				 * the application would have gone into infinite wait.
 				 * (Pay attention to the synchronized keyword)
-				 * This takes a lock on the queue.
+				 * This takes a lock on this object and hence the queue.
 				 * 
 				 * If not possible to go forward, it should wait, and relinquish the control.
 				 * 
