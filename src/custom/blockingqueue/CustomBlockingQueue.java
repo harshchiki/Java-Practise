@@ -3,6 +3,13 @@ package custom.blockingqueue;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/*
+ * 
+ * This Custom Blocking queue implementation 
+ * also resembles the behaviour of a 
+ * Bounded Semaphore (multiple states)
+ */
+
 public class CustomBlockingQueue<T> {
 	private final Queue<T> q = new LinkedList<T>();
 	private final int limit;
@@ -27,6 +34,7 @@ public class CustomBlockingQueue<T> {
 				 * preloaded into stack and memory (Thread loaded)
 				 */
 				wait();
+				System.out.println("Queue is full. Writer waiting to write.");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -39,6 +47,7 @@ public class CustomBlockingQueue<T> {
 		while(q.size()==0){
 			try {
 				wait();
+				System.out.println("Queue is empty. Reader waiting to read.");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} 
