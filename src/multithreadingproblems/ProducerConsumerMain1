@@ -1,0 +1,53 @@
+package multithreadingproblems;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class ProducerConsumerMain1 {
+	public static void main(String[] args) {
+		Queue<String> q = new LinkedList<>();
+		int maxSize = 10;
+		Lock lock = new ReentrantLock();
+		Condition bufferFull = lock.newCondition();
+		Condition bufferEmpty = lock.newCondition();
+		
+		Producer p1 = new Producer(q, lock, bufferFull, bufferEmpty, maxSize, "p1");
+		Producer p2 = new Producer(q, lock, bufferFull, bufferEmpty, maxSize,"p2");
+		Producer p3 = new Producer(q, lock, bufferFull, bufferEmpty, maxSize,"p3");
+		Producer p4 = new Producer(q, lock, bufferFull, bufferEmpty, maxSize,"p4");
+		
+		Consumer c1 = new Consumer(q, lock, bufferFull, bufferEmpty, maxSize,"c1");
+		Consumer c2 = new Consumer(q, lock, bufferFull, bufferEmpty, maxSize,"c2");
+		Consumer c3 = new Consumer(q, lock, bufferFull, bufferEmpty, maxSize,"c3");
+		
+		
+		new Thread(p1).start();
+		customSleep();
+		new Thread(p2).start();
+		customSleep();
+		new Thread(p3).start();
+		customSleep();
+		new Thread(p4).start();
+		customSleep();
+
+		new Thread(c1).start();
+		customSleep();
+		new Thread(c2).start();
+		customSleep();
+		new Thread(c3).start();
+		customSleep();
+		
+	}
+	
+	static void customSleep(){
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
